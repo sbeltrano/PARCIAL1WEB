@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'Satisfy';
+    src: url('Satisfy-Regular.ttf') format('truetype');
+}  
+
+#logoBar{
+    font-family: Satisfy;
+}  
+
+#barranav2{
+    color: whitesmoke;
+}
