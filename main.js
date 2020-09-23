@@ -27,7 +27,8 @@ function addToJson(name, price) {
 
     if (name == desc) {
       jsonCart[orders].Qty = jsonCart[orders].Qty + 1;
-      jsonCart[orders].Amount = jsonCart[orders].Amount * jsonCart[orders].Qty;
+      jsonCart[orders].Amount =
+        jsonCart[orders].UnitPrice * jsonCart[orders].Qty;
       itsThere = true;
       break;
     }
