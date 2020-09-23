@@ -2,7 +2,14 @@ var jsonCart= [];
 
 loadSecondNavBar();
 
-//TODO: Lógica
+function cancelOrder(){
+    jsonCart= [];
+    $("#rowCards").empty();
+    var numberItems = document.getElementById('numberItems');
+    numberItems.innerHTML = '&nbsp;&nbsp;'+0+' items';
+    loadCart(); 
+}
+
 function addToJson(name, price){
     var product = {
         "Qty": 1,
@@ -13,8 +20,27 @@ function addToJson(name, price){
     
         "Amount": price
     };
-    jsonCart.push(product);
-    console.log(jsonCart);
+    
+    let itsThere = false;
+    for (orders in jsonCart){
+        let desc = jsonCart[orders].Description;
+
+        if(name == desc){
+            jsonCart[orders].Qty = jsonCart[orders].Qty + 1;
+            jsonCart[orders].Amount = jsonCart[orders].Amount * jsonCart[orders].Qty;
+            itsThere = true;
+            break;
+        }
+    }
+    if (itsThere == false){
+        jsonCart.push(product);
+    }
+    var size = 0;
+    for (orders in jsonCart){
+        size = size + jsonCart[orders].Qty;
+    }
+    var numberItems = document.getElementById('numberItems');
+    numberItems.innerHTML = '&nbsp;&nbsp;'+size+' items';
 }
 
 function loadCart(){
@@ -51,25 +77,26 @@ function loadCart(){
     var tbody = document.createElement("tbody");
 
     table.appendChild(thead);
-    table.appendChild(th5);
-    thead.appendChild(tbody);
+    thead.appendChild(tr);
+    table.appendChild(tbody);
     tr.appendChild(th1);
     tr.appendChild(th2);
     tr.appendChild(th3);
     tr.appendChild(th4);
     tr.appendChild(th5);
 
-    
+    var tableId = document.getElementById('tableOrderDetail').getElementsByTagName('tbody')[0];;
 
     let i = 0;
     let j = 1;
+    var totalPrice = 0;
     for (orders in jsonCart){
         let qty = jsonCart[orders].Qty;
         let desc = jsonCart[orders].Description;
         let up = jsonCart[orders].UnitPrice;
         let amount = jsonCart[orders].Amount;
 
-        var row = table.insertRow(i);
+        var row = tableId.insertRow(i);
 
         var cell0 = row.insertCell(0);
         var cell1 = row.insertCell(1);
@@ -81,9 +108,56 @@ function loadCart(){
         cell2.innerHTML = desc;
         cell3.innerHTML = up;
         cell4.innerHTML = amount;
+        totalPrice = totalPrice + amount;
         i++;
         j++;
     }
+
+    var colTotal = document.createElement("DIV");
+    colTotal.className = 'col-sm-12 col-md-9 col-lg-9 col-xl-9 text-left';
+    var colButtons = document.createElement("DIV");
+    colButtons.className = 'col-sm-12 col-md-3 col-lg-3 col-xl-3';
+    rowCards.appendChild(colTotal);
+
+    var parrafoPrecio = document.createElement("P");
+    var strongPrecio = document.createElement("STRONG");
+    strongPrecio.innerText = 'Total: $'+totalPrice;
+    colTotal.appendChild(parrafoPrecio);
+    parrafoPrecio.appendChild(strongPrecio);
+
+    rowCards.appendChild(colButtons);
+    var divFlexButtons = document.createElement("DIV");
+    divFlexButtons.id = 'divFlexButtons';
+    divFlexButtons.className = 'row';
+    colButtons.appendChild(divFlexButtons);
+
+    var colCancel = document.createElement("DIV");
+    colCancel.className = 'col-sm-4 col-md-4 col-lg-4 col-xl-4';
+    var colConfirm = document.createElement("DIV");
+    colConfirm.className = 'col-sm-8 col-md-8 col-lg-8 col-xl-8';
+    divFlexButtons.appendChild(colCancel);
+    divFlexButtons.appendChild(colConfirm);
+
+    var btnCancel = document.createElement("button");
+    btnCancel.setAttribute("type", "button");
+    btnCancel.className = 'btn btn-outline-dark';
+    btnCancel.setAttribute("data-toggle", 'modal');
+    btnCancel.setAttribute("data-target", "#exampleModal");
+    btnCancel.id = 'Cancel';
+    
+    btnCancel.innerText = 'Cancel'
+    colCancel.appendChild(btnCancel);
+
+    var btnConfirm = document.createElement("button");
+    btnConfirm.setAttribute("type", "button");
+    btnConfirm.className = 'btn btn-outline-dark';
+    btnConfirm.id = 'Confirm';
+    
+    btnConfirm.innerText = 'Confirm order'
+    colConfirm.appendChild(btnConfirm);
+    //TODO: agregar eventListener
+    
+    btnConfirm.addEventListener("click", function(){console.log(jsonCart)}, false);
 }
 
 function loadCards(name1){
@@ -129,7 +203,7 @@ function loadCards(name1){
                     btn.className = 'btn btn-dark';
                     btn.id = productName;
                     btn.innerText = 'Add to car'
-                    //TODO add eventListener
+
                     btn.addEventListener("click", function(){addToJson(productName, productPrice)}, false);
 
                     rowCards.appendChild(colDiv);
@@ -150,6 +224,8 @@ function loadCards(name1){
 }
 
 function loadSecondNavBar(){
+    var btnCancel = document.getElementById('CancelOrder');
+    btnCancel.addEventListener("click", function(){cancelOrder()}, false);
     var cart = document.getElementById('Cart');
     cart.addEventListener("click", function(){$("#rowCards").empty();loadCart()}, false);
     loadCards('Burguers');

@@ -10,3 +10,22 @@
 #barranav2{
     color: whitesmoke;
 }
+
+#numberItems{
+    font-size: medium;
+    color: black;
+}
+
+#Cancel, #ContinueAdding{
+    background-color: lightcoral;
+    color: black;
+}
+
+#Confirm, #CancelOrder{
+    background-color: lightgoldenrodyellow;
+    color: black;
+}
+
+#footer{
+    height: 70px;
+}
