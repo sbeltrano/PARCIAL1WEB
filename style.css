@@ -1,31 +1,33 @@
 @font-face {
-    font-family: 'Satisfy';
-    src: url('Satisfy-Regular.ttf') format('truetype');
-}  
-
-#logoBar{
-    font-family: Satisfy;
-}  
-
-#barranav2{
-    color: whitesmoke;
+  font-family: "Satisfy";
+  src: url("Satisfy-Regular.ttf") format("truetype");
 }
 
-#numberItems{
-    font-size: medium;
-    color: black;
+#logoBar {
+  font-family: Satisfy;
 }
 
-#Cancel, #ContinueAdding{
-    background-color: lightcoral;
-    color: black;
+#barranav2 {
+  color: whitesmoke;
 }
 
-#Confirm, #CancelOrder{
-    background-color: lightgoldenrodyellow;
-    color: black;
+#numberItems {
+  font-size: medium;
+  color: black;
 }
 
-#footer{
-    height: 70px;
+#Cancel,
+#ContinueAdding {
+  background-color: lightcoral;
+  color: black;
+}
+
+#Confirm,
+#CancelOrder {
+  background-color: lightgoldenrodyellow;
+  color: black;
+}
+
+#footer {
+  height: 70px;
 }
